@@ -15,9 +15,32 @@ namespace RAD20162017.Controllers
         private AttendDbContext db = new AttendDbContext();
 
         // GET: Attendances
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            var attendances = db.Attendances.Include(a => a.student).Include(a => a.subject);
+            //var attendances = db.Attendances.Include(a => a.student).Include(a => a.subject);
+            //return View(attendances.ToList());
+
+            ViewBag.SubjectSortParam = String.IsNullOrEmpty(sortOrder) ? "subject_desc" : "";
+            //ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
+
+            var attendances = from s in db.Attendances
+                              //orderby s.StudentID
+                              select s;
+            switch (sortOrder)
+            {
+                case "subject_desc":
+                    attendances = attendances.OrderByDescending(s => s.subject);
+                    break;
+                //case "Date":
+                //    attendances = attendances.OrderBy(s => s.AttendanceDate);
+                //    break;
+                //case "date_desc":
+                //    attendances = attendances.OrderByDescending(s => s.AttendanceDate);
+                //    break;
+                default:
+                    attendances = attendances.OrderBy(s => s.subject);
+                    break;
+            }
             return View(attendances.ToList());
         }
 

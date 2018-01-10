@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - RAD</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -22,18 +22,25 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
 
                     @if (User.IsInRole("Lecturer") || User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Lecturers", "Index", "Lecturers")</li>
+                        <li>@Html.ActionLink("Attendances", "Index", "Attendances")</li>
                     }
 
                     @if (User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Students", "Index", "Students")</li>
-                        <li>@Html.ActionLink("Subjects", "Index", "Subjects")</li>
-                        <li>@Html.ActionLink("Attendances", "Index", "Attendances")</li>
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Manage
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Lecturers", "Index", "Lecturers")</li>
+                                <li>@Html.ActionLink("Students", "Index", "Students")</li>
+                                <li>@Html.ActionLink("Subjects", "Index", "Subjects")</li>
+                            </ul>
+                        </li>
                     }
 
 
@@ -46,7 +53,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year</p>
         </footer>
     </div>
 
