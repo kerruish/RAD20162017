@@ -17,30 +17,34 @@ namespace RAD20162017.Migrations.AttendDb
 
         protected override void Seed(RAD20162017.Models.AttendDb.AttendDbContext context)
         {
-            SeedSubjects(context);
+            //SeedSubjects(context);
             //SeedAttendance(context);
-
         }
 
         private void SeedAttendance(AttendDbContext context)
         {
-            //private List<Student>
-            context.Attendances.AddOrUpdate(a => a.AttendanceID,
-                new Attendance
-                {
-                    AttendanceDate = DateTime.Now,
-                    Present = true,
-                    StudentID = 1,
-                    SubjectID = 1,
-                });
-            context.Attendances.AddOrUpdate(a => a.AttendanceID,
-                new Attendance
-                {
-                    AttendanceDate = DateTime.Now,
-                    Present = true,
-                    StudentID = 2,
-                    SubjectID = 2,
-                });
+            List<Student> selectedStudents = new List<Student>();
+            selectedStudents = GetStudents(context);
+
+            List<Subject> selectedSubjects = new List<Subject>();
+            selectedSubjects = GetSubjects(context);
+
+            foreach (var s in selectedStudents)
+            {
+                context.Attendances.AddOrUpdate(a => a.StudentID,
+                    new Attendance
+                    {
+                        AttendanceDate = DateTime.Now,
+                        Present = true,
+                        StudentID = s.StudentID,
+                        student = s,
+                        subject = selectedSubjects.FirstOrDefault(),
+                        SubjectID = selectedSubjects.FirstOrDefault().SubjectID
+
+                    }
+                    );
+                context.SaveChanges();
+            }
         }
 
         private void SeedSubjects(AttendDbContext context)
@@ -93,6 +97,25 @@ namespace RAD20162017.Migrations.AttendDb
                }
             );
         }
+
+        private List<Student> GetStudents(AttendDbContext context)
+        {
+            var randomSetStudent = context.Students.Select(s => new { s.StudentID, r = Guid.NewGuid() });
+            List<string> subset = randomSetStudent.OrderBy(s => s.r)
+                .Select(s => s.StudentID.ToString()).Take(4).ToList();
+            return context.Students.Where(s => subset.Contains(s.StudentID.ToString())).ToList();
+        }
+
+        private List<Subject> GetSubjects(AttendDbContext context)
+        {
+            var randomSetSubject = context.Subjects.Select(s => new { s.SubjectID, r = Guid.NewGuid() });
+            List<string> subset = randomSetSubject.OrderBy(s => s.r)
+                .Select(s => s.SubjectID.ToString()).Take(2).ToList();
+
+            return context.Subjects.Where(s => subset.Contains(s.SubjectID.ToString())).ToList();
+        }
+
+
 
     }
 }
