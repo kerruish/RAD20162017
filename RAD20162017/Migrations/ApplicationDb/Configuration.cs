@@ -35,7 +35,7 @@ namespace RAD20162017.Migrations.ApplicationDb
                 new RoleManager<IdentityRole>(
                     new RoleStore<IdentityRole>(context));
 
-
+            roleManager.Create(new IdentityRole { Name = "Admin" });
             roleManager.Create(new IdentityRole { Name = "Lecturer" });
             roleManager.Create(new IdentityRole { Name = "StudentRole" });
 
@@ -59,6 +59,17 @@ namespace RAD20162017.Migrations.ApplicationDb
                 throw new Exception { Source = "Did not find the students" };
             }
 
+            ApplicationUser Admin = manager.FindByEmail("admin@itsligo.ie");
+            if (manager.FindByEmail("admin@itsligo.ie") != null)
+            {
+                manager.AddToRoles(Admin.Id, new string[] { "Admin" });
+            }
+            else
+            {
+                throw new Exception { Source = "Did not find the admin" };
+            }
+
+            context.SaveChanges();
         }
 
         private void SeedUsers(ApplicationDbContext context)
@@ -80,6 +91,15 @@ namespace RAD20162017.Migrations.ApplicationDb
                     PasswordHash = new PasswordHasher().HashPassword("Password1!"),
                     SecurityStamp = Guid.NewGuid().ToString(),
                 });
+
+            context.Users.AddOrUpdate(u => u.Email, new ApplicationUser
+            {
+                Email = "admin@itsligo.ie",
+                EmailConfirmed = true,
+                UserName = "admin@itsligo.ie",
+                PasswordHash = new PasswordHasher().HashPassword("Password1!"),
+                SecurityStamp = Guid.NewGuid().ToString(),
+            });
 
             context.SaveChanges();
         }

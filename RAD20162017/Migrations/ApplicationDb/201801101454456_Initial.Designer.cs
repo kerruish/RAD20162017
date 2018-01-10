@@ -13,7 +13,7 @@ namespace RAD20162017.Migrations.ApplicationDb
         
         string IMigrationMetadata.Id
         {
-            get { return "201801101431167_Initial"; }
+            get { return "201801101454456_Initial"; }
         }
         
         string IMigrationMetadata.Source
