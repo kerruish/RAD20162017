@@ -26,13 +26,14 @@
 
                     @if (User.IsInRole("Lecturer") || User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Lecturers", "Index", "Lecturer")</li>
+                        <li>@Html.ActionLink("Lecturers", "Index", "Lecturers")</li>
                     }
 
                     @if (User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Students", "Index", "Student")</li>
-                        <li>@Html.ActionLink("Subjects", "Index", "Subject")</li>
+                        <li>@Html.ActionLink("Students", "Index", "Students")</li>
+                        <li>@Html.ActionLink("Subjects", "Index", "Subjects")</li>
+                        <li>@Html.ActionLink("Attendances", "Index", "Attendances")</li>
                     }
 
 

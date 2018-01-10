@@ -16,6 +16,7 @@ namespace RAD20162017.Models.AttendDb
         public AttendDbContext()
             : base("DefaultConnection")
         {
+            Configuration.LazyLoadingEnabled = false;
         }
 
         public static AttendDbContext Create()

@@ -1,0 +1,56 @@
+﻿@model RAD20162017.Models.AttendDb.Attendance
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Attendance</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.student.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.student.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.subject.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.subject.SubjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AttendanceDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AttendanceDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Present)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Present)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

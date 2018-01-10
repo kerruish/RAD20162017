@@ -17,8 +17,8 @@ namespace RAD20162017.Migrations.AttendDb
 
         protected override void Seed(RAD20162017.Models.AttendDb.AttendDbContext context)
         {
-            //SeedSubjects(context);
-            //SeedAttendance(context);
+            SeedSubjects(context);
+            SeedAttendance(context);
         }
 
         private void SeedAttendance(AttendDbContext context)
@@ -114,8 +114,5 @@ namespace RAD20162017.Migrations.AttendDb
 
             return context.Subjects.Where(s => subset.Contains(s.SubjectID.ToString())).ToList();
         }
-
-
-
     }
 }
